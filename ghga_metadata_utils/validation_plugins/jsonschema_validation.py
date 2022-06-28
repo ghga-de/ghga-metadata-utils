@@ -15,16 +15,16 @@
 """Custom GHGA-specific Validation Plugins"""
 
 from linkml.utils.generator import Generator
-from linkml_validator.plugins.jsonschema_validation import JsonschemaValidationPlugin
+from linkml_validator.plugins.jsonschema_validation import JsonSchemaValidationPlugin
 
 from ghga_metadata_utils.generators.jsonschemagen import GhgaJsonSchemaGenerator
 
 
-class GhgaJsonschemaValidationPlugin(JsonschemaValidationPlugin):
+class GhgaJsonSchemaValidationPlugin(JsonSchemaValidationPlugin):
     """
     Plugin to perform JSONSchema validation for GHGA metadata records.
 
-    This Plugin uses the GhgaJsonSchemaGenerator instead of the Default
+    This Plugin uses the GhgaJsonSchemaGenerator instead of the default.
 
     Args:
         schema: Path or URL to GHGA metadata schema YAML
@@ -32,7 +32,7 @@ class GhgaJsonschemaValidationPlugin(JsonschemaValidationPlugin):
 
     """
 
-    NAME = "GhgaJsonschemaValidationPlugin"
+    NAME = "GhgaJsonSchemaValidationPlugin"
 
     def __init__(
         self,
