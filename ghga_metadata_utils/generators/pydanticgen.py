@@ -15,15 +15,11 @@
 """Custom GHGA-specific Pydantic Generators"""
 
 from copy import deepcopy
-from typing import TextIO, Union
+from typing import Dict, Set, TextIO, Union
 
 import click
 from jinja2 import Template
-from linkml.generators.pydanticgen import (
-    PydanticGenerator,
-    _get_pyrange,
-    default_template,
-)
+from linkml.generators.pydanticgen import PydanticGenerator, _get_pyrange
 from linkml.utils.generator import shared_arguments
 from linkml_runtime.linkml_model.meta import (
     Annotation,
@@ -32,6 +28,9 @@ from linkml_runtime.linkml_model.meta import (
 )
 from linkml_runtime.utils.formatutils import camelcase, underscore
 from linkml_runtime.utils.schemaview import SchemaView
+
+# pylint: disable=no-value-for-parameter,too-many-arguments,too-many-branches,too-many-nested-blocks,too-many-locals,too-many-statements
+
 
 NON_REFERENCE_SLOTS = {"has attribute", "has parameter", "has data use condition"}
 DEFAULT_TEMPLATE = """
@@ -92,7 +91,8 @@ class {{ c.name }}
 
 
 {% for au in annotated_unions.values() -%}
-{{ au.name }} = Annotated[Union[{{ ','.join(au.members) }}], Field(discriminator="{{au.discriminator_field}}")]
+{{ au.name }} = Annotated[Union[{{ ','.join(au.members) }}],
+Field(discriminator="{{au.discriminator_field}}")]
 {% endfor %}
 
 # Update forward refs
@@ -123,7 +123,7 @@ class GhgaPydanticGenerator(PydanticGenerator):
         schema: Union[str, TextIO, SchemaDefinition],
         template_file: str = None,
         allow_extra=False,
-        format: str = valid_formats[0],
+        valid_format: str = valid_formats[0],
         genmeta: bool = False,
         gen_classvars: bool = True,
         gen_slots: bool = True,
@@ -133,14 +133,14 @@ class GhgaPydanticGenerator(PydanticGenerator):
             schema=schema,
             template_file=template_file,
             allow_extra=allow_extra,
-            format=format,
+            format=valid_format,
             genmeta=genmeta,
             gen_classvars=gen_classvars,
             gen_slots=gen_slots,
             **kwargs,
         )
-        self.reference_slots = set()
-        self.annotated_unions = {}
+        self.reference_slots: Set = set()
+        self.annotated_unions: Dict[str, Dict] = {}
         for slot in self.schema.slots:
             slot_alias_name = self.aliased_slot_name(slot)
             if (
@@ -149,7 +149,7 @@ class GhgaPydanticGenerator(PydanticGenerator):
                 self.reference_slots.add(underscore(slot_alias_name))
         self.default_template = DEFAULT_TEMPLATE
 
-    def serialize(self) -> str:
+    def serialize(self) -> str:  # noqa: C901
         """
         Serialize the schema to Pydantic models.
 
@@ -158,22 +158,20 @@ class GhgaPydanticGenerator(PydanticGenerator):
             - slots that are reference slots are made more permissible
 
         """
-        sv = self.schemaview
+        schema_view: SchemaView = self.schemaview
         if self.template_file is not None:
-            with open(self.template_file) as template_file:
+            with open(self.template_file, encoding="utf-8") as template_file:
                 template_obj = Template(template_file.read())
         else:
             template_obj = Template(self.default_template)
-        sv: SchemaView
-        sv = self.schemaview
-        schema = sv.schema
+        schema = schema_view.schema
         pyschema = SchemaDefinition(
             id=schema.id,
             name=schema.name,
             description=schema.description.replace('"', '\\"'),
         )
-        enums = self.generate_enums(sv.all_enums())
-        sorted_classes = self.sort_classes(list(sv.all_classes().values()))
+        enums = self.generate_enums(schema_view.all_enums())
+        sorted_classes = self.sort_classes(list(schema_view.all_classes().values()))
         sorted_classes = [c for c in sorted_classes if c.class_uri != "linkml:Any"]
         for class_original in sorted_classes:
             class_def: ClassDefinition
@@ -188,23 +186,26 @@ class GhgaPydanticGenerator(PydanticGenerator):
             pyschema.classes[class_def.name] = class_def
             for attribute in list(class_def.attributes.keys()):
                 del class_def.attributes[attribute]
-            for sn in sv.class_slots(class_name):
-                s = deepcopy(sv.induced_slot(sn, class_name))
-                s.name = underscore(s.name)
-                if s.description:
-                    s.description = s.description.replace('"', '\\"')
-                class_def.attributes[s.name] = s
+            for slot_name in schema_view.class_slots(class_name):
+                slot = deepcopy(schema_view.induced_slot(slot_name, class_name))
+                slot.name = underscore(slot.name)
+                if slot.description:
+                    slot.description = slot.description.replace('"', '\\"')
+                class_def.attributes[slot.name] = slot
                 collection_key = None
-                if s.name == "schema_type":
+                if slot.name == "schema_type":
                     # Treat schema_type as a specialized Literal field
                     pyrange = f'Literal["{class_def.name}"]'
-                elif s.range in sv.all_classes():
-                    range_cls = sv.get_class(s.range)
+                elif slot.range in schema_view.all_classes():
+                    range_cls = schema_view.get_class(slot.range)
                     if range_cls.class_uri == "linkml:Any":
                         pyrange = "Any"
-                    elif s.inlined or sv.get_identifier_slot(range_cls.name) is None:
+                    elif (
+                        slot.inlined
+                        or schema_view.get_identifier_slot(range_cls.name) is None
+                    ):
                         pyrange_list = []
-                        descendants = sv.class_descendants(s.range)
+                        descendants = schema_view.class_descendants(slot.range)
                         for descendant in reversed(descendants):
                             pyrange_list.append(f"{camelcase(descendant)}")
                         pyrange = ",".join(pyrange_list)
@@ -226,39 +227,39 @@ class GhgaPydanticGenerator(PydanticGenerator):
                                 ] = annotated_union
                             pyrange = f"{annotated_union_name}"
                         if (
-                            sv.get_identifier_slot(range_cls.name) is not None
-                            and not s.inlined_as_list
+                            schema_view.get_identifier_slot(range_cls.name) is not None
+                            and not slot.inlined_as_list
                         ):
-                            collection_type = "str"
+                            pyrange = "str"
                     else:
                         pyrange = "str"
-                elif s.range in sv.all_enums():
-                    pyrange = f"{camelcase(s.range)}"
-                elif s.range in sv.all_types():
-                    t = sv.get_type(s.range)
-                    pyrange = _get_pyrange(t, sv)
-                elif s.range is None:
+                elif slot.range in schema_view.all_enums():
+                    pyrange = f"{camelcase(slot.range)}"
+                elif slot.range in schema_view.all_types():
+                    range_type = schema_view.get_type(slot.range)
+                    pyrange = _get_pyrange(range_type, schema_view)
+                elif slot.range is None:
                     pyrange = "str"
                 else:
-                    raise Exception(f"range: {s.range}")
-                if s.multivalued:
+                    raise Exception(f"range: {slot.range}")
+                if slot.multivalued:
                     if collection_key is None:
                         pyrange = f"List[{pyrange}]"
                     else:
                         pyrange = f"Dict[{collection_key}, {pyrange}]"
 
                 # Making reference slots more permissible
-                if s.name in self.reference_slots:
+                if slot.name in self.reference_slots:
                     if ("[str]" not in pyrange) and (pyrange != "str"):
-                        if s.multivalued:
+                        if slot.multivalued:
                             pyrange = f"Union[{pyrange}, List[str]]"
                         else:
                             pyrange = f"Union[{pyrange}, str]"
 
-                if not s.required and s.name != "schema_type":
+                if not slot.required and slot.name != "schema_type":
                     pyrange = f"Optional[{pyrange}]"
                 ann = Annotation("python_range", pyrange)
-                s.annotations[ann.tag] = ann
+                slot.annotations[ann.tag] = ann
         code = template_obj.render(
             schema=pyschema,
             annotated_unions=self.annotated_unions,

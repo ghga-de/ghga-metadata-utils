@@ -40,4 +40,6 @@ class GhgaJsonschemaValidationPlugin(JsonschemaValidationPlugin):
         jsonschema_generator: Generator = GhgaJsonSchemaGenerator,
         **kwargs
     ) -> None:
-        super().__init__(schema=schema, jsonschema_generator=jsonschema_generator)
+        super().__init__(
+            schema=schema, jsonschema_generator=jsonschema_generator, **kwargs
+        )

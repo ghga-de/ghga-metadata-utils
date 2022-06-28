@@ -27,6 +27,8 @@ from linkml_runtime.linkml_model.meta import (
 )
 from linkml_runtime.utils.formatutils import camelcase, underscore
 
+# pylint: disable=no-value-for-parameter,no-self-use
+
 NON_REFERENCE_SLOTS = {"has attribute", "has parameter", "has data use condition"}
 
 
