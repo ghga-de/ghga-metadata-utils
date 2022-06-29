@@ -12,20 +12,4 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-FROM python:3.9.6-buster
-
-COPY . /service
-WORKDIR /service
-
-RUN pip install .
-
-# create new user and execute as that user
-RUN useradd --create-home appuser
-WORKDIR /home/appuser
-USER appuser
-
-ENV PYTHONUNBUFFERED=1
-
-# Please adapt to package name:
-ENTRYPOINT ["my-microservice"]
+#
