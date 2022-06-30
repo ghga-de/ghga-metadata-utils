@@ -1,0 +1,242 @@
+{
+  "has_biospecimen": [
+    {
+      "alias": "4227f15d-1efe-4bc1-91d3-e193563b3bb1",
+      "has_individual": "219afb21-f026-437d-a42a-aa3978df9f8a",
+      "name": "Biospecimen generated for Sample 2efbf6ed-a3c3-4b74-9b3f-fd72d4a6c33f",
+      "schema_type": "CreateBiospecimen",
+      "schema_version": "0.7.0"
+    }
+  ],
+  "has_experiment": [
+    {
+      "alias": "6803a929-66da-4d67-9ef8-38b063d648be",
+      "description": "N/A",
+      "has_attribute": [
+        {
+          "key": "centerName",
+          "value": "DKFZ-IBIOS"
+        }
+      ],
+      "has_file": [
+        "61052f5a-7bc1-458c-9924-ae4c1c86cad1"
+      ],
+      "has_protocol": [
+        "afdedff4-a4aa-48bf-8f8d-01afbf33c952",
+        "efdedff4-a4aa-48bf-8f8d-01afbf33c952"
+      ],
+      "has_sample": [
+        "2efbf6ed-a3c3-4b74-9b3f-fd72d4a6c33f"
+      ],
+      "has_study": "112173bb-b777-403f-ae6b-3b5d36af6a4e",
+      "schema_type": "CreateExperiment",
+      "schema_version": "0.7.0",
+      "title": "Experiment generated for Dataset c351b44f-9264-42a0-8278-bd5d6cbac763"
+    },
+    {
+      "alias": "bff27a01-fc20-439b-81a6-639f217c46fc",
+      "description": "N/A",
+      "has_attribute": [
+        {
+          "key": "centerName",
+          "value": "DKFZ-IBIOS"
+        }
+      ],
+      "has_file": [
+        "a2ca36c8-72f3-4cc7-8841-3530a995dea8"
+      ],
+      "has_protocol": [
+        "afdedff4-a4aa-48bf-8f8d-01afbf33c952",
+        "efdedff4-a4aa-48bf-8f8d-01afbf33c952"
+      ],
+      "has_sample": [
+        "2efbf6ed-a3c3-4b74-9b3f-fd72d4a6c33f"
+      ],
+      "has_study": "112173bb-b777-403f-ae6b-3b5d36af6a4e",
+      "schema_type": "CreateExperiment",
+      "schema_version": "0.7.0",
+      "title": "Experiment generated for Dataset c351b44f-9264-42a0-8278-bd5d6cbac763"
+    },
+    {
+      "alias": "472c0263-6dc5-4c08-a20c-bb85bef31795",
+      "description": "N/A",
+      "has_attribute": [
+        {
+          "key": "centerName",
+          "value": "DKFZ-IBIOS"
+        }
+      ],
+      "has_file": [
+        "c8d86e6d-8345-4e3a-869e-ec78ce353993"
+      ],
+      "has_protocol": [
+        "afdedff4-a4aa-48bf-8f8d-01afbf33c952",
+        "efdedff4-a4aa-48bf-8f8d-01afbf33c952"
+      ],
+      "has_sample": [
+        "2efbf6ed-a3c3-4b74-9b3f-fd72d4a6c33f"
+      ],
+      "has_study": "112173bb-b777-403f-ae6b-3b5d36af6a4e",
+      "schema_type": "CreateExperiment",
+      "schema_version": "0.7.0",
+      "title": "Experiment generated for Dataset c351b44f-9264-42a0-8278-bd5d6cbac763"
+    }
+  ],
+  "has_file": [
+    {
+      "alias": "61052f5a-7bc1-458c-9924-ae4c1c86cad1",
+      "checksum": "0181a2605d552b7733ef4492031ccf3c",
+      "checksum_type": "MD5",
+      "ega_accession": "EGAF00000101304",
+      "format": "bam",
+      "name": "61052f5a-7bc1-458c-9924-ae4c1c86cad1",
+      "schema_type": "CreateFile",
+      "schema_version": "0.7.0",
+      "size": 202142862506
+    },
+    {
+      "alias": "a2ca36c8-72f3-4cc7-8841-3530a995dea8",
+      "checksum": "59237c0e3060a625e6cf0a5d71dd7611",
+      "checksum_type": "MD5",
+      "ega_accession": "EGAF00000101305",
+      "format": "bam",
+      "name": "a2ca36c8-72f3-4cc7-8841-3530a995dea8",
+      "schema_type": "CreateFile",
+      "schema_version": "0.7.0",
+      "size": 206327988774
+    },
+    {
+      "alias": "c8d86e6d-8345-4e3a-869e-ec78ce353993",
+      "checksum": "aacae9d2235654f8018c0b08a27280e8",
+      "checksum_type": "MD5",
+      "ega_accession": "EGAF00000101306",
+      "format": "bam",
+      "name": "c8d86e6d-8345-4e3a-869e-ec78ce353993",
+      "schema_type": "CreateFile",
+      "schema_version": "0.7.0",
+      "size": 482771491105
+    }
+  ],
+  "has_individual": [
+    {
+      "age": "unknown",
+      "alias": "219afb21-f026-437d-a42a-aa3978df9f8a",
+      "schema_type": "CreateIndividual",
+      "schema_version": "0.7.0",
+      "sex": "unknown",
+      "vital_status": "alive"
+    }
+  ],
+  "has_project": {
+    "alias": "3baab233-1840-48b6-9e41-668cdef258e0",
+    "description": "N/A",
+    "schema_type": "CreateProject",
+    "schema_version": "0.7.0",
+    "title": "Project generated for Study 112173bb-b777-403f-ae6b-3b5d36af6a4e"
+  },
+  "has_protocol": [
+    {
+      "alias": "afdedff4-a4aa-48bf-8f8d-01afbf33c952",
+      "description": "Patient samples were hashtagged with TotalSeq-A antibodies (Biolegend) according to the manufacturer\u2019s protocol for TotalSeq\u2122-A antibodies and cell hashing with 10x Single Cell 3\u2032 Reagent Kit v3.1. 50\u03bcL cell suspension with 1x106 cells were resuspended in staining buffer (2% BSA, Jackson Immuno Research; 0.01% Tween-20, Sigma-Aldrich; 1x DPBS, GIBCO) and 5 \u03bcL Human TruStain FcX\u2122 FcBlocking (Biolegend) reagent were added. The blocking was performed for 10min at 4\u00b0C. In the next step 1\u03bcg unique TotalSeq-A antibody was added to each sample and incubated for 30min at 4\u00b0C. After the incubation time 1.5mL staining buffer were added and centrifuged for 5min at 350g and 4\u00b0C. Washing was repeated for a total of 3 washes. Subsequently, the cells were resuspended in an appropriate volume of 1x DPBS (GIBCO), passed through a 40\u03bcm mesh (Flowmi\u2122 Cell Strainer, Merck) and counted, using a Neubauer Hemocytometer (Marienfeld). Cell counts were adjusted and hashtagged cells were pooled equally. The cell suspension was super-loaded, with 50,000 cells, in the Chromium\u2122 Controller for partitioning single cells into nanoliter-scale Gel Bead-In-Emulsions (GEMs). Single Cell 3\u2032 reagent kit v3.1 was used for reverse transcription, cDNA amplification and library construction of the gene expression libraries (10x Genomics) following the detailed protocol provided by 10x Genomics. Hashtag libraries were prepared according to the cell hashing protocol for 10x Single Cell 3\u2032 Reagent Kit v3.1 provided by Biolegend, including primer sequences and reagent specifications. Biometra Trio Thermal Cycler was used for amplification and incubation steps (Analytik Jena). Libraries were quantified by Qubit\u2122 2.0 Fluorometer (ThermoFisher) and quality was checked using 2100 Bioanalyzer with High Sensitivity DNA kit (Agilent). Sequencing was performed in paired-end mode with a S1 and S2 flow cell (2 \u00d7 50 cycles) using NovaSeq 6000 sequencer (Illumina).",
+      "end_bias": "3'",
+      "has_attribute": [
+        {
+          "key": "strategy",
+          "value": "scRNAseq"
+        },
+        {
+          "key": "sampleTagKit1",
+          "value": "TotalSeq-A"
+        },
+        {
+          "key": "sampleTagKit2",
+          "value": "10xSingleCell3'ReagentKitv.3.1"
+        }
+      ],
+      "library_layout": "paired-end",
+      "library_name": "10X_scRNAseq_COVID_lib",
+      "library_preparation": "10x Genomics Chromium",
+      "library_preparation_kit_manufacturer": "10x Genomics",
+      "library_preparation_kit_retail_name": "10x Single Cell 3\u2032 Reagent Kit v3.1",
+      "library_selection": "cDNA",
+      "library_type": "Transcriptome",
+      "primer": "oligo-dT",
+      "rnaseq_strandedness": "first",
+      "schema_type": "CreateLibraryPreparationProtocol",
+      "schema_version": "0.7.0",
+      "target_regions": "NA"
+    },
+    {
+      "alias": "efdedff4-a4aa-48bf-8f8d-01afbf33c952",
+      "cell_barcode_offset": "1.0",
+      "cell_barcode_read": "Read1",
+      "cell_barcode_size": "16.0",
+      "description": "short read single cell Transcriptome sequencing",
+      "flow_cell_id": "COVID_5545_Cell5_Lane2;COVID_5545_Cell5_Lane3;COVID_5545_Cell5_Lane4;COVID_5545_Cell5_Lane1",
+      "flow_cell_type": "S1;S2",
+      "instrument_model": "Illumina NovaSeq 6000",
+      "sample_barcode_read": "Read2",
+      "schema_type": "CreateSequencingProtocol",
+      "schema_version": "0.7.0",
+      "sequencing_read_length": "50.0",
+      "target_coverage": "30X",
+      "type": "10x scRNA sequencing",
+      "umi_barcode_offset": "17.0",
+      "umi_barcode_read": "Read1",
+      "umi_barcode_size": "12.0"
+    }
+  ],
+  "has_sample": [
+    {
+      "alias": "2efbf6ed-a3c3-4b74-9b3f-fd72d4a6c33f",
+      "description": "N/A",
+      "ega_accession": "EGAN00001209716",
+      "has_attribute": [
+        {
+          "key": "centerName",
+          "value": "DKFZ-IBIOS"
+        }
+      ],
+      "has_biospecimen": "4227f15d-1efe-4bc1-91d3-e193563b3bb1",
+      "has_individual": "219afb21-f026-437d-a42a-aa3978df9f8a",
+      "name": "BT2009034_tumor",
+      "schema_type": "CreateSample",
+      "schema_version": "0.7.0",
+      "xref": [
+        "SAMEA2634655"
+      ]
+    }
+  ],
+  "has_study": {
+    "affiliation": [
+      "GHGA"
+    ],
+    "alias": "112173bb-b777-403f-ae6b-3b5d36af6a4e",
+    "description": "Ependymomas are common childhood brain tumours that occur throughout the nervous system, but are most common in the paediatric hindbrain. Current standard therapy comprises surgery and radiation, but not cytotoxic chemotherapy as it does not further increase survival. Whole-genome and whole-exome sequencing of 47 hindbrain ependymomas reveals an extremely low mutation rate, and zero significant recurrent somatic single nucleotide variants. Although devoid of recurrent single nucleotide variants and focal copy number aberrations, poor-prognosis hindbrain ependymomas exhibit a CpG island methylator phenotype. Transcriptional silencing driven by CpG methylation converges exclusively on targets of the Polycomb repressive complex 2 which represses expression of differentiation genes through trimethylation of H3K27. CpG island methylator phenotype-positive hindbrain ependymomas are responsive to clinical drugs that target either DNA or H3K27 methylation both in vitro and in vivo. We conclude that epigenetic modifiers are the first rational therapeutic candidates for this deadly malignancy, which is epigenetically deregulated but genetically bland.",
+    "ega_accession": "EGAS00001000443",
+    "has_attribute": [
+      {
+        "key": "centerName",
+        "value": "DKFZ-IBIOS"
+      },
+      {
+        "key": "released",
+        "value": "RELEASED"
+      },
+      {
+        "key": "published",
+        "value": "true"
+      }
+    ],
+    "has_project": "3baab233-1840-48b6-9e41-668cdef258e0",
+    "schema_type": "CreateStudy",
+    "schema_version": "0.7.0",
+    "title": "Epigenomic alterations define lethal CIMP-positive ependymomas of infancy",
+    "type": "other",
+    "xref": [
+      "lindt_ependymoma_2013_02_28"
+    ]
+  },
+  "schema_type": "CreateSubmission",
+  "schema_version": "0.7.0"
+}
