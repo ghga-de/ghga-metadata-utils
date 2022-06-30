@@ -27,7 +27,7 @@ SCHEMA_VERSION = "0.7.0"
 CREATE_SCHEMA_URL_TEMPLATE = "https://raw.githubusercontent.com/ghga-de/ghga-metadata-schema/<VERSION>/artifacts/derived_schema/creation/ghga_creation.yaml"
 
 
-def test_jsonschema_validation():
+def test_jsonschema_validation1():
     """Test a create submission JSON which is valid"""
 
     file_path = BASE_DIR / "test_data" / "submission.json"
@@ -46,7 +46,9 @@ def test_jsonschema_validation():
     ]
     validator = Validator(schema=create_schema_url, plugins=plugins)
     report = validator.validate(data, target_class=data["schema_type"])
+    messages = report.validation_results[0].validation_messages
     assert report.valid
+    assert len(messages) == 0
 
 
 def test_jsonschema_validation2():
@@ -68,4 +70,7 @@ def test_jsonschema_validation2():
     ]
     validator = Validator(schema=create_schema_url, plugins=plugins)
     report = validator.validate(data, target_class=data["schema_type"])
+    messages = report.validation_results[0].validation_messages
     assert not report.valid
+    assert len(messages) > 0
+    assert "'alias' is a required property" in [x.message for x in messages]
