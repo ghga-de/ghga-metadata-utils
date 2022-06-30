@@ -14,6 +14,8 @@
 # limitations under the License.
 """Custom GHGA-specific Validation Plugins"""
 
+from typing import Dict
+
 from linkml.utils.generator import Generator
 from linkml_validator.plugins.jsonschema_validation import JsonSchemaValidationPlugin
 
@@ -28,7 +30,9 @@ class GhgaJsonSchemaValidationPlugin(JsonSchemaValidationPlugin):
 
     Args:
         schema: Path or URL to GHGA metadata schema YAML
-        kwargs: Additional arguments
+        jsonschema_generator: A generator to use for generating the JSONSchema
+        generator_args: Arguments to instantiate the generator specified in `jsonschema_generator`
+        kwargs: Additional arguments that are used to instantiate the plugin
 
     """
 
@@ -38,8 +42,12 @@ class GhgaJsonSchemaValidationPlugin(JsonSchemaValidationPlugin):
         self,
         schema: str,
         jsonschema_generator: Generator = GhgaJsonSchemaGenerator,
+        generator_args: Dict = None,
         **kwargs
     ) -> None:
         super().__init__(
-            schema=schema, jsonschema_generator=jsonschema_generator, **kwargs
+            schema=schema,
+            jsonschema_generator=jsonschema_generator,
+            generator_args=generator_args,
+            **kwargs
         )
