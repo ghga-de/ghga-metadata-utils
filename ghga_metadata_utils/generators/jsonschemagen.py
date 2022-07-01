@@ -14,6 +14,7 @@
 # limitations under the License.
 """Custom GHGA-specific JSONSchema Generators"""
 
+import copy
 from typing import Optional, TextIO, Union
 
 import click
@@ -50,6 +51,8 @@ class GhgaJsonSchemaGenerator(JsonSchemaGenerator):
         top_class: Optional[str] = None,
         **kwargs
     ) -> None:
+        if "include_range_class_descendants" not in kwargs:
+            kwargs["include_range_class_descendants"] = True
         super().__init__(schema=schema, top_class=top_class, **kwargs)
         self.reference_slots = set()
         for slot in self.schema.slots:
@@ -68,6 +71,7 @@ class GhgaJsonSchemaGenerator(JsonSchemaGenerator):
         super().visit_class_slot(cls, aliased_slot_name, slot)
         prop = self.clsobj.properties[underscore(aliased_slot_name)]
         if aliased_slot_name in self.reference_slots:
+            self.fix_one_of(prop)
             if "type" in prop:
                 if prop["type"] == "array":
                     self.fix_multivalued_slot(prop)
@@ -81,19 +85,37 @@ class GhgaJsonSchemaGenerator(JsonSchemaGenerator):
         ) or (self.topCls is None and cls.tree_root):
             self.schemaobj.properties[underscore(aliased_slot_name)] = prop
 
+    def fix_one_of(self, prop: jsonasobj.JsonObj) -> None:
+        """
+        Replace oneOf directive with anyOf.
+
+        Note: This is a temporary solution until the fix is made upstream in
+        linkml.generators.jsonschemagen.JsonSchemaGenerator
+        """
+        if "type" in prop:
+            if prop["type"] == "array":
+                items = prop["items"]
+                if "oneOf" in items:
+                    items["anyOf"] = copy.deepcopy(items["oneOf"])
+                    del items["oneOf"]
+        else:
+            if "oneOf" in prop:
+                prop["anyOf"] = copy.deepcopy(prop["oneOf"])
+                del prop["oneOf"]
+
     def fix_singlevalued_slot(self, prop: jsonasobj.JsonObj) -> None:
         """
         Fix single-valued slot, whose range is a class, by changing its JSON Schema
         representation to include one of ref and string.
         """
         if "$ref" in prop:
-            one_of_directive = [{"$ref": prop["$ref"]}]
-            one_of_directive.append({"type": "string"})
+            any_of_directive = [{"$ref": prop["$ref"]}]
+            any_of_directive.append({"type": "string"})
             del prop["$ref"]
-            prop["oneOf"] = one_of_directive
-        elif "oneOf" in prop:
-            one_of_directive = prop["oneOf"]
-            one_of_directive.append({"type": "string"})
+            prop["anyOf"] = any_of_directive
+        elif "anyOf" in prop:
+            any_of_directive = prop["anyOf"]
+            any_of_directive.append({"type": "string"})
 
     def fix_multivalued_slot(self, prop: jsonasobj.JsonObj) -> None:
         """
@@ -101,15 +123,15 @@ class GhgaJsonSchemaGenerator(JsonSchemaGenerator):
         representation to include one of ref and string.
         """
         items = prop["items"]
-        one_of_directive = [{"type": "string"}]
+        any_of_directive = [{"type": "string"}]
         if "$ref" in items:
-            one_of_directive.append({"$ref": items["$ref"]})
+            any_of_directive.append({"$ref": items["$ref"]})
             del items["$ref"]
-            items["oneOf"] = one_of_directive
+            items["anyOf"] = any_of_directive
             prop["items"] = items
-        elif "oneOf" in items:
-            one_of_directive = items["oneOf"]
-            one_of_directive.append({"type": "string"})
+        elif "anyOf" in items:
+            any_of_directive = items["anyOf"]
+            any_of_directive.append({"type": "string"})
 
 
 @shared_arguments(GhgaJsonSchemaGenerator)
