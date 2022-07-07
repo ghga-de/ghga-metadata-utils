@@ -17,10 +17,8 @@
 from copy import deepcopy
 from typing import Dict, Set, TextIO, Union
 
-import click
 from jinja2 import Template
 from linkml.generators.pydanticgen import PydanticGenerator, _get_pyrange
-from linkml.utils.generator import shared_arguments
 from linkml_runtime.linkml_model.meta import (
     Annotation,
     ClassDefinition,
@@ -29,7 +27,7 @@ from linkml_runtime.linkml_model.meta import (
 from linkml_runtime.utils.formatutils import camelcase, underscore
 from linkml_runtime.utils.schemaview import SchemaView
 
-# pylint: disable=no-value-for-parameter,too-many-arguments,too-many-branches,too-many-nested-blocks,too-many-locals,too-many-statements
+# pylint: disable=no-value-for-parameter,too-many-arguments,too-many-branches,too-many-nested-blocks,too-many-locals,too-many-statements,redefined-builtin
 
 
 NON_REFERENCE_SLOTS = {"has attribute", "has parameter", "has data use condition"}
@@ -270,36 +268,3 @@ class GhgaPydanticGenerator(PydanticGenerator):
             version=self.schema.version,
         )
         return code
-
-
-@shared_arguments(GhgaPydanticGenerator)
-@click.option(
-    "--template_file", help="Optional jinja2 template to use for class generation"
-)
-@click.command()
-def cli(
-    yamlfile,
-    template_file=None,
-    head=True,
-    emit_metadata=False,
-    genmeta=False,
-    classvars=True,
-    slots=True,
-    **args,
-):
-    """Generate pydantic classes to represent a LinkML model"""
-    gen = GhgaPydanticGenerator(
-        yamlfile,
-        template_file=template_file,
-        head=head,
-        emit_metadata=emit_metadata,
-        genmeta=genmeta,
-        gen_classvars=classvars,
-        gen_slots=slots,
-        **args,
-    )
-    print(gen.serialize())
-
-
-if __name__ == "__main__":
-    cli()
