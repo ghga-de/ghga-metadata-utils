@@ -224,11 +224,6 @@ class GhgaPydanticGenerator(PydanticGenerator):
                                     annotated_union_name
                                 ] = annotated_union
                             pyrange = f"{annotated_union_name}"
-                        if (
-                            schema_view.get_identifier_slot(range_cls.name) is not None
-                            and not slot.inlined_as_list
-                        ):
-                            pyrange = "str"
                     else:
                         pyrange = "str"
                 elif slot.range in schema_view.all_enums():
